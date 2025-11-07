@@ -93,16 +93,18 @@ echo "All extractions (including .deb) complete!"
 
 # Step 6: Move all folders inside base_dir into $dest_dir
 echo "Moving all folders from $base_dir into $base_dir/test..."
-dest_dir="~/.config/obs-studio/plugins/" # make dest_dir your obs-plugins location for example ~/.config/obs-studio/plugins/
+dest_dir="$HOME/.config/obs-studio/plugins" # make dest_dir your obs-plugins location for example ~/.config/obs-studio/plugins/
 mkdir -p "$dest_dir" # use if you need to create it or are not sure if it exists 
 
 shopt -s dotglob  # include hidden folders
 for dir in "$base_dir"/*/; do
     # Skip the destination directory itself
-    if [ "$dir" != "$dest_dir/" ]; then
+    if [ "$dir" != "$dest_dir" ]; then
         folder_name=$(basename "$dir")
         echo "Moving $folder_name into $dest_dir"
-        mv -f "$dir" "$dest_dir/"
+        #mv -f "$dir" "$dest_dir/"
+        cp -rT "$dir" "$dest_dir/$folder_name"
+        rm -rf "$dir"
     fi
 done
 
